@@ -20,7 +20,7 @@ public class CommentEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 55)
     private String name;
 
     @Column(nullable = false, length = 100)
@@ -33,15 +33,14 @@ public class CommentEntity {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    // Associated post
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", nullable = false)
-    private PostEntity post;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CommentState state;
 
+    // Relation to Post
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false)
+    private PostEntity post;
 
 
     protected CommentEntity() {};
