@@ -5,6 +5,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Posts")
@@ -49,6 +51,9 @@ public class PostEntity {
 
     @Column(unique = true, nullable = false)
     private String slug;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentEntity> comments = new ArrayList<>();
 
     protected PostEntity() {};
 
@@ -125,5 +130,13 @@ public class PostEntity {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public List<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentEntity> comments) {
+        this.comments = comments;
     }
 }
