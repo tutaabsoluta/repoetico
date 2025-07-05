@@ -1,7 +1,6 @@
 package com.alonso.blog.model;
 
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,21 +23,16 @@ public class CategoryEntity {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostEntity> posts = new ArrayList<>();
 
-    protected CategoryEntity() {};
+    protected CategoryEntity() {}
 
-    public CategoryEntity(Long id, String name, String description, String slug) {
-        this.id = id;
+    public CategoryEntity(String name, String description, String slug) {
         this.name = name;
         this.description = description;
         this.slug = slug;
-    };
+    }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -69,7 +63,13 @@ public class CategoryEntity {
         return posts;
     }
 
-    public void setPosts(List<PostEntity> posts) {
-        this.posts = posts;
+    public void addPost(PostEntity post) {
+        posts.add(post);
+        post.setCategory(this);
+    }
+
+    public void removePost(PostEntity post) {
+        posts.remove(post);
+        post.setCategory(null);
     }
 }

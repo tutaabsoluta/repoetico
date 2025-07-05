@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Posts")
+@Table(name = "post")
 public class PostEntity {
 
     public enum State {
@@ -57,23 +57,20 @@ public class PostEntity {
     @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
 
-    protected PostEntity() {};
+    protected PostEntity() {}
 
-    public PostEntity( String title, String content, State state, AuthorEntity author, String image, String slug ) {
+    public PostEntity(String title, String content, State state, AuthorEntity author, String image, String slug, CategoryEntity category) {
         this.title = title;
         this.content = content;
         this.state = state;
         this.author = author;
         this.image = image;
         this.slug = slug;
+        setCategory(category); // usa el setter para mantener sincronía
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -104,11 +101,9 @@ public class PostEntity {
         return createdAt;
     }
 
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
-
 
     public AuthorEntity getAuthor() {
         return author;
@@ -138,7 +133,29 @@ public class PostEntity {
         return comments;
     }
 
-    public void setComments(List<CommentEntity> comments) {
-        this.comments = comments;
+    public void addComment(CommentEntity comment) {
+        comments.add(comment);
+        comment.setPost(this);
+    }
+
+    public void removeComment(CommentEntity comment) {
+        comments.remove(comment);
+        comment.setPost(null);
+    }
+
+    public CategoryEntity getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryEntity category) {
+        if (this.category != null && !this.category.equals(category)) {
+            this.category.getPosts().remove(this);
+        }
+
+        this.category = category;
+
+        if (category != null && !category.getPosts().contains(this)) {
+            category.getPosts().add(this);
+        }
     }
 }

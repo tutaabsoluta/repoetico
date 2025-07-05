@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Authors")
+@Table(name = "author")
 public class AuthorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +20,7 @@ public class AuthorEntity {
     @Column(nullable = false, length = 50)
     private String lastName;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100, unique = true)
     private String email;
 
     @Column(nullable = false, length = 500)
@@ -50,9 +50,6 @@ public class AuthorEntity {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -102,7 +99,13 @@ public class AuthorEntity {
         return posts;
     }
 
-    public void setPosts(List<PostEntity> posts) {
-        this.posts = posts;
+    public void addPost(PostEntity post) {
+        posts.add(post);
+        post.setAuthor(this);
+    }
+
+    public void removePost(PostEntity post) {
+        posts.remove(post);
+        post.setAuthor(null);
     }
 }

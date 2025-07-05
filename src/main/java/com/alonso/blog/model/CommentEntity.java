@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "Comments")
+@Table(name = "comment")
 public class CommentEntity {
 
     public enum CommentState {
@@ -45,8 +45,7 @@ public class CommentEntity {
 
     protected CommentEntity() {};
 
-    public CommentEntity(Long id, String name, String email, String content, LocalDateTime createdAt, PostEntity post, CommentState state) {
-        this.id = id;
+    public CommentEntity(String name, String email, String content, LocalDateTime createdAt, PostEntity post, CommentState state) {
         this.name = name;
         this.content = content;
         this.createdAt = createdAt;
@@ -56,10 +55,6 @@ public class CommentEntity {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
