@@ -45,10 +45,9 @@ public class CommentEntity {
 
     protected CommentEntity() {};
 
-    public CommentEntity(String name, String email, String content, LocalDateTime createdAt, PostEntity post, CommentState state) {
+    public CommentEntity(String name, String email, String content, PostEntity post, CommentState state) {
         this.name = name;
         this.content = content;
-        this.createdAt = createdAt;
         this.post = post;
         this.state = state;
     }

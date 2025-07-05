@@ -13,7 +13,7 @@ public class TagEntity {
     @Column(nullable = false, length = 55)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String slug;
 
 
